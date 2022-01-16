@@ -1,0 +1,33 @@
+body {
+	background-color: #e7e8f3;
+	font-family: "Courier New";
+}
+
+header img {
+	width: 95px;
+}
+header p {
+	color: #151935;
+	font-size: 18px;
+}
+article .title-text h1 {
+	color: #555555;
+}
+article .title-text h1 a {
+	color: rgb(73, 73, 73);
+}
+article .title-text h1 a:hover {
+	color: #000000;
+}
+.slide-show-img img {
+	aspect-ratio: 16/6;
+	object-fit: cover;
+}
+aside .aside-list .aside-menu a {
+	text-decoration: none;
+	color: #3a3a3a;
+}
+aside .aside-list .aside-menu a:hover {
+	text-decoration: none;
+	color: #000000;
+}
