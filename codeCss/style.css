@@ -15,9 +15,11 @@ article .title-text h1 {
 }
 article .title-text h1 a {
 	color: rgb(73, 73, 73);
+	text-decoration: none;
 }
 article .title-text h1 a:hover {
 	color: #000000;
+	text-decoration: underline;
 }
 .slide-show-img img {
 	aspect-ratio: 16/6;
@@ -28,7 +30,7 @@ aside .aside-list .aside-menu a {
 	color: #3a3a3a;
 }
 aside .aside-list .aside-menu a:hover {
-	text-decoration: none;
+	text-decoration: underline;
 	color: #000000;
 }
 .go-to-top a {
@@ -39,4 +41,16 @@ aside .aside-list .aside-menu a:hover {
 .go-to-top a:hover {
 	text-decoration: underline;
 	color: white;
+}
+.noi-bat {
+	color: #3a3a3a;
+	text-decoration: none;
+}
+.noi-bat:hover {
+	color: #000000;
+	text-decoration: underline;
+}
+.anh-tuong-trung img {
+	aspect-ratio: 16/8;
+	object-fit: cover;
 }
