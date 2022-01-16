@@ -31,3 +31,12 @@ aside .aside-list .aside-menu a:hover {
 	text-decoration: none;
 	color: #000000;
 }
+.go-to-top a {
+	text-decoration: none;
+	color: #e0e0e0;
+}
+
+.go-to-top a:hover {
+	text-decoration: underline;
+	color: white;
+}
