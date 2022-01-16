@@ -25,6 +25,10 @@ article .title-text h1 a:hover {
 	aspect-ratio: 16/6;
 	object-fit: cover;
 }
+.slide-show-img img {
+	aspect-ratio: 16/6;
+	object-fit: cover;
+}
 aside .aside-list .aside-menu a {
 	text-decoration: none;
 	color: #3a3a3a;
