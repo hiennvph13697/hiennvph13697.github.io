@@ -1,4 +1,3 @@
-const app = angular.module("my_app", []);
 			function controller($scope) {}
 
 			function danhMucMonHoc($scope, $http) {
@@ -14,8 +13,8 @@ const app = angular.module("my_app", []);
 				$http.get("db/Students.js").then(function (reponse) {
 					$scope.list_taiKhoan = reponse.data;
 					console.log($scope.list_taiKhoan)
-					
 				});
+
 				$scope.login = function(){
 					for (let i = 0; i < $scope.list_taiKhoan.length; i++) {
 						if ($scope.list_taiKhoan[i].username == $scope.login.username &&
@@ -31,7 +30,8 @@ const app = angular.module("my_app", []);
 							return
 						}
 					}
-				}
+				};
+
 				$scope.signUp = function(){
 						if ($scope.dangKy.password == $scope.password2) {
 							$scope.list_taiKhoan.push(angular.copy($scope.dangKy));
@@ -47,10 +47,13 @@ const app = angular.module("my_app", []);
 							console.log($scope.list_taiKhoan)
 							return;
 						}
-				}
+				};
+
 				$scope.doiMatKhau = function(){
 					for (let i = 0; i < $scope.list_taiKhoan.length; i++) {
-						if($scope.list_taiKhoan[i].username == 'teonv'){
+						if($scope.list_taiKhoan[i].username == 'teonv'
+						&& $scope.list_taiKhoan[i].password == $scope.doiMatKhau.password 
+						&& $scope.doiMatKhau.password2 == $scope.doiMatKhau.password3 ){
 							$scope.list_taiKhoan[i].password = $scope.doiMatKhau.password2;
 							alert("Đổi mật khẩu thành công");
 							console.log($scope.list_taiKhoan);
@@ -62,8 +65,8 @@ const app = angular.module("my_app", []);
 						}
 						
 					}
-				}
-			}
+				};
+			};
 			
 			app.controller("my_controller", controller);
 			app.controller("my_DanhMucMonHoc", danhMucMonHoc);
