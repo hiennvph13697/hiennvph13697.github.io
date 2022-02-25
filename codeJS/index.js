@@ -205,6 +205,8 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 
 	$scope.dangXuatTaiKhoan = function () {
 		$rootScope.user = null;
+		$rootScope.tenNguoiDung = null;
+		$rootScope.phanquyen = null;
 		Swal.fire({
 			icon: "success",
 			title: "Đăng xuất thành công !",
