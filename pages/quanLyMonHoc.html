@@ -1,0 +1,51 @@
+<div class="row">
+	<div class="col-12 col-md-9 m-auto" ng-controller="my_DanhMucMonHoc">
+		<h3 class="text-center mt-3">Quản lý môn học</h3>
+
+		<form class="border border-secondary p-3 mt-3">
+			<label class="label" for="">Id</label>
+			<input class="form-control" type="text" ng-model="monHoc.Id" />
+			<label class="label" for="">Name</label>
+			<input class="form-control" type="text" ng-model="monHoc.Name" />
+			<label class="label" for="">Logo</label>
+			<input class="form-control mb-3" type="text" ng-model="monHoc.Logo" />
+			<div class="text-center">
+				<button class="btn btn-outline-secondary" ng-click="add()">Thêm</button>
+				<button class="btn btn-outline-secondary" ng-click="update()">
+					Sửa
+				</button>
+				<button class="btn btn-outline-secondary" ng-click="refesh()">
+					Làm mới
+				</button>
+			</div>
+		</form>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Name</th>
+					<th scope="col">Logo</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="mh in list_monHoc">
+					<th scope="row">{{mh.Id}}</th>
+					<td>{{mh.Name}}</td>
+					<td>{{mh.Logo}}</td>
+					<td>
+						<button
+							ng-click="editMonHoc($index)"
+							class="btn btn-outline-secondary"
+						>
+							Sửa
+						</button>
+						<button ng-click="delete($index)" class="btn btn-outline-secondary">
+							Xoá
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

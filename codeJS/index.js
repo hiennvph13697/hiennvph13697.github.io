@@ -23,8 +23,11 @@ app.config(function ($routeProvider, $locationProvider) {
 		.when("/thitracnghiem", {
 			templateUrl: "pages/thitracnghiem.html",
 		})
-		.when("/quanLy", {
-			templateUrl: "pages/quanLy.html",
+		.when("/quanLyTaiKhoan", {
+			templateUrl: "pages/quanLyTaiKhoan.html",
+		})
+		.when("/quanLyMonHoc", {
+			templateUrl: "pages/quanLyMonHoc.html",
 		})
 		.when("/quiz/:id/:name", {
 			templateUrl: "pages/thitracnghiem.html",
@@ -52,22 +55,18 @@ function danhMucMonHoc($scope, $http, $rootScope) {
 	$scope.editMonHoc = function (index) {
 		$scope.index = index;
 		$scope.monHoc = angular.copy($rootScope.list_monHoc[index]);
-		console.log($rootScope.list_monHoc);
 	};
 
 	$scope.add = function () {
 		$rootScope.list_monHoc.push(angular.copy($scope.monHoc));
 		$scope.refesh();
-		console.log($rootScope.list_monHoc);
 	};
 	$scope.update = function () {
 		$rootScope.list_monHoc[$scope.index] = $scope.monHoc;
-		console.log($rootScope.list_monHoc);
 	};
 	$scope.delete = function (index) {
 		$rootScope.list_monHoc.splice(index, 1);
 		$scope.refesh();
-		console.log($rootScope.list_monHoc);
 	};
 	$scope.refesh = function () {
 		$scope.monHoc = {};
@@ -77,13 +76,16 @@ function danhMucMonHoc($scope, $http, $rootScope) {
 
 function thongTinTaiKhoan($scope, $http, $rootScope) {
 	$scope.dangKy = {};
+	$scope.mkMoi = {};
 	$scope.doiMatKhau = {};
 	$scope.login = {};
+	$scope.capNhatThongTinTaiKhoan = {};
 	$rootScope.students = [];
 	$rootScope.user;
 	$rootScope.tenNguoiDung;
 	$rootScope.phanquyen;
-	$http.get("db/Students.js").then(function (reponse) {
+	const url = "https://62150171cdb9d09717a9c4e3.mockapi.io/students";
+	$http.get(url).then(function (reponse) {
 		$rootScope.students = reponse.data;
 		console.log($rootScope.students);
 	});
@@ -96,6 +98,7 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 				$rootScope.students[i].password == $scope.login.password
 			) {
 				$rootScope.user = $rootScope.students[i].username;
+				console.log($rootScope.user);
 				$rootScope.tenNguoiDung = $rootScope.students[i].fullname;
 				if ($rootScope.students[i].phanquyen == "admin") {
 					$rootScope.phanquyen = $rootScope.students[i].phanquyen;
@@ -121,7 +124,7 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 
 	$scope.signUp = function () {
 		if ($scope.dangKy.password == $scope.password2) {
-			$rootScope.students.push(angular.copy($scope.dangKy));
+			$http.post(url, $scope.dangKy).then(function (response) {});
 			Swal.fire({
 				icon: "success",
 				title: "Đăng ký thành công",
@@ -143,68 +146,63 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 
 	$scope.doiMatKhau = function () {
 		for (let i = 0; i < $rootScope.students.length; i++) {
+			const urlId = url + "/" + i;
 			if (
 				$rootScope.students[i].username == $rootScope.user &&
-				$rootScope.students[i].password == $scope.doiMatKhau.password &&
-				$scope.doiMatKhau.password2 == $scope.doiMatKhau.password3
+				$rootScope.students[i].password == $scope.doiMatKhau.password1 &&
+				$scope.doiMatKhau.password2 == $scope.mkMoi.password
 			) {
-				$rootScope.students[i].password = $scope.doiMatKhau.password2;
-				Swal.fire({
-					icon: "success",
-					title: "Đổi mật khẩu thành công !",
-					text: "Chuyển hướng đến trang chủ !",
-					showConfirmButton: false,
-					timer: 1000,
+				$http.put(urlId, $scope.mkMoi).then(function (response) {
+					Swal.fire({
+						icon: "success",
+						title: "Đổi mật khẩu thành công !",
+						text: "Chuyển hướng đến trang chủ !",
+						showConfirmButton: false,
+						timer: 1000,
+					});
+					window.location.href = "#/";
+					console.log($rootScope.students);
 				});
-				console.log($rootScope.students);
-				window.location.href = "#/";
+				return;
+			} else if ($scope.doiMatKhau.password2 != $scope.mkMoi.password) {
+				Swal.fire({
+					icon: "error",
+					title: "Mật khẩu mới không khớp nhau !",
+				});
 			} else if (
-				$rootScope.students[i].password != $scope.doiMatKhau.password
+				$rootScope.students[i].password != $scope.doiMatKhau.password1
 			) {
 				Swal.fire({
 					icon: "error",
 					title: "Mật khẩu cũ không đúng !",
-				});
-			} else if ($scope.doiMatKhau.password2 != $scope.doiMatKhau.password3) {
-				Swal.fire({
-					icon: "error",
-					title: "Mật khẩu mới không khớp nhau !",
 				});
 			}
 		}
 	};
 
 	$scope.capNhatThongTin = function () {
+		console.log($rootScope.user);
 		for (let i = 0; i < $rootScope.students.length; i++) {
-			if ($rootScope.students[i].username == $rootScope.user) {
-				$rootScope.students[i].schoolfee =
-					$scope.capNhatThongTinTaiKhoan.schoolfee;
-				$rootScope.students[i].marks = $scope.capNhatThongTinTaiKhoan.marks;
-				$rootScope.students[i].gender = $scope.capNhatThongTinTaiKhoan.gender;
-				$rootScope.students[i].fullname =
-					$scope.capNhatThongTinTaiKhoan.fullName;
-				$rootScope.students[i].email = $scope.capNhatThongTinTaiKhoan.email;
-				$rootScope.students[i].birthday =
-					$scope.capNhatThongTinTaiKhoan.birthday;
-				Swal.fire({
-					icon: "success",
-					title: "Đổi thông tin thành công !",
-					text: "Chuyển hướng đến trang chủ !",
-					showConfirmButton: false,
-					timer: 1000,
-				});
-				console.log($rootScope.students);
-				console.log($rootScope.students);
-				return;
-			} else {
-				Swal.fire({
-					icon: "error",
-					title: "Đổi thông tin thất bại !",
-				});
-				return;
+			const urlId = url + "/" + i;
+			if ($rootScope.user == $rootScope.students[i].username) {
+				$http
+					.put(urlId, $scope.capNhatThongTinTaiKhoan)
+					.then(function (response) {
+						Swal.fire({
+							icon: "success",
+							title: "Đổi thông tin thành công !",
+							text: "Chuyển hướng đến trang chủ !",
+							showConfirmButton: false,
+							timer: 1000,
+						});
+						window.location.href = "#/";
+						console.log($rootScope.students);
+						return;
+					});
 			}
 		}
 	};
+
 	$scope.dangXuatTaiKhoan = function () {
 		$rootScope.user = null;
 		Swal.fire({
@@ -219,44 +217,62 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 	};
 }
 
-function danhMucTaiKhoan($scope, $rootScope) {
+function danhMucTaiKhoan($scope, $rootScope, $http) {
+	const url = "https://62150171cdb9d09717a9c4e3.mockapi.io/students";
+	$scope.qlTaiKhoan;
 	$scope.editTaiKhoan = function (index) {
 		$scope.index = index;
 		$scope.qlTaiKhoan = angular.copy($rootScope.students[index]);
 	};
 
 	$scope.addTaiKhoan = function () {
-		$rootScope.students.push(angular.copy($scope.qlTaiKhoan));
-		$scope.refeshTaiKhoan();
-		console.log($rootScope.students);
-		Swal.fire({
-			icon: "success",
-			title: "Thêm thành công !",
-			showConfirmButton: false,
-			timer: 1000,
+		$http.post(url, $scope.qlTaiKhoan).then(function (response) {
+			// Thêm vào table
+			$scope.students.push(response.data);
+			$scope.refeshTaiKhoan();
+			console.log($rootScope.students);
+			Swal.fire({
+				icon: "success",
+				title: "Thêm thành công !",
+				showConfirmButton: false,
+				timer: 1000,
+			});
 		});
 	};
 	$scope.updateTaiKhoan = function () {
-		$rootScope.students[$scope.index] = $scope.qlTaiKhoan;
-		console.log($rootScope.students);
-		Swal.fire({
-			icon: "success",
-			title: "Sửa thành công !",
-			showConfirmButton: false,
-			timer: 1000,
-		});
+		for (let i = 0; i < $rootScope.students.length; i++) {
+			const urliD = url + "/" + i;
+			if ($rootScope.students[i].username == $scope.qlTaiKhoan.username) {
+				$http.put(urliD, $scope.qlTaiKhoan).then(function (response) {
+					// Thêm vào table
+					// $scope.qlTaiKhoan.push(response.data);
+					$scope.refeshTaiKhoan();
+					console.log($rootScope.students);
+					Swal.fire({
+						icon: "success",
+						title: "Sửa thành công !",
+						showConfirmButton: false,
+						timer: 1000,
+					});
+				});
+			}
+		}
 	};
 	$scope.deleteTaiKhoan = function (index) {
-		$rootScope.students.splice(index, 1);
-		$scope.refeshTaiKhoan();
-		console.log($rootScope.students);
-		Swal.fire({
-			icon: "success",
-			title: "Xoá thành công !",
-			showConfirmButton: false,
-			timer: 1000,
+		const id = $rootScope.students[index].id;
+		const apiDelete = url + "/" + id;
+		// Gọi API với method DELETE
+		$http.delete(apiDelete).then(function (response) {
+			// Xóa trên table
+			$rootScope.students.splice(index, 1);
+			Swal.fire({
+				icon: "success",
+				title: "Xoá thành công !",
+				showConfirmButton: false,
+				timer: 1000,
+			});
+			$scope.refeshTaiKhoan();
 		});
-		window.location.href = "#/";
 	};
 	$scope.refeshTaiKhoan = function () {
 		$scope.qlTaiKhoan = {};

@@ -7,7 +7,8 @@
         "gender": "true",
         "birthday": "1995-12-21",
         "schoolfee": "1500000",
-        "marks": "0"
+        "marks": "0",
+	"phanquyen": "admin"
     },
     {
         "username": "pheonv",
@@ -17,7 +18,8 @@
         "gender": "true",
         "birthday": "1985-10-11",
         "schoolfee": "2500000",
-        "marks": "0"
+        "marks": "0",
+	"phanquyen": "user"
     },
     {
         "username": "nopt",
@@ -27,6 +29,7 @@
         "gender": "false",
         "birthday": "1993-05-15",
         "schoolfee": "2000000",
-        "marks": "0"
+        "marks": "0",
+	"phanquyen": "user"
     }
 ]

@@ -1,0 +1,269 @@
+<div class="row">
+	<div class="col-12 col-md-12" ng-controller="my_danhMucTaiKhoan">
+		<h3 class="text-center mt-3">Quản lý môn học</h3>
+
+		<form class="border border-secondary p-3 mt-3" name="formQuanLyTaiKhoan">
+			<label for="username" class="mt-2">Username</label>
+			<input
+				type="text"
+				id="username"
+				name="username"
+				class="form-control"
+				placeholder="Username"
+				ng-model="qlTaiKhoan.username"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.username.$untouched || formQuanLyTaiKhoan.username.$valid"
+				>Vui lòng nhập Username</small
+			>
+			<label for="password" class="mt-2">Password</label>
+			<input
+				type="password"
+				id="password"
+				name="password"
+				class="form-control"
+				placeholder="Password"
+				ng-model="qlTaiKhoan.password"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.password.$untouched || formQuanLyTaiKhoan.password.$valid"
+				>Vui lòng nhập Password</small
+			>
+			<label for="fullName" class="mt-2">Họ và Tên</label>
+			<input
+				type="text"
+				id="fullName"
+				name="fullName"
+				class="form-control"
+				placeholder="Họ và Tên"
+				ng-model="qlTaiKhoan.fullname"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.fullName.$untouched || formQuanLyTaiKhoan.fullName.$valid"
+				>Vui lòng nhập Họ và Tên</small
+			>
+			<label for="email" class="mt-2">Địa chỉ email</label>
+			<input
+				type="email"
+				id="email"
+				name="email"
+				class="form-control"
+				placeholder="Địa chỉ email"
+				ng-model="qlTaiKhoan.email"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.email.$untouched || formQuanLyTaiKhoan.email.$valid"
+				>Vui lòng nhập đúng email</small
+			>
+			<label for="birthday" class="mt-2">Ngày sinh</label>
+			<input
+				type="text"
+				id="birthday"
+				name="birthday"
+				class="form-control"
+				placeholder="birthday"
+				ng-model="qlTaiKhoan.birthday"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.birthday.$untouched || formQuanLyTaiKhoan.birthday.$valid"
+				>Vui lòng nhập ngày sinh</small
+			>
+			<label for="marks" class="mt-2">Marks</label>
+			<input
+				type="text"
+				id="marks"
+				name="marks"
+				class="form-control"
+				placeholder="marks"
+				ng-model="qlTaiKhoan.marks"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.marks.$untouched || formQuanLyTaiKhoan.marks.$valid"
+				>Vui lòng nhập Marks</small
+			>
+			<label for="schoolfee" class="mt-2">schoolfee</label>
+			<input
+				type="text"
+				id="schoolfee"
+				name="schoolfee"
+				class="form-control"
+				placeholder="schoolfee"
+				ng-model="qlTaiKhoan.schoolfee"
+				required
+			/>
+			<small
+				class="text-danger d-block"
+				ng-hide="formQuanLyTaiKhoan.schoolfee.$untouched || formQuanLyTaiKhoan.schoolfee.$valid"
+				>Vui lòng nhập schoolfee</small
+			>
+			<div class="mt-2 row">
+				<label class="col-4" for="gioi_tinh">Giới tính</label>
+				<div class="col-10 row">
+					<div class="col-4">
+						<input
+							type="radio"
+							ng-model="qlTaiKhoan.gender"
+							value="true"
+							name="gioi_tinh"
+							id="gt_nam"
+						/>
+						<label for="gt_nam">Nam</label>
+					</div>
+					<div class="col-4">
+						<input
+							type="radio"
+							ng-model="qlTaiKhoan.gender"
+							value="false"
+							name="gioi_tinh"
+							id="gt_nu"
+						/>
+						<label for="gt_nu">Nữ</label>
+					</div>
+				</div>
+			</div>
+			<div class="mt-2 row">
+				<label class="col-4" for="phanquyen">Quyền truy cập</label>
+				<div class="col-10 row">
+					<div class="col-4">
+						<input
+							type="radio"
+							ng-model="qlTaiKhoan.phanquyen"
+							value="admin"
+							checked
+							name="phanquyen"
+							id="admin"
+						/>
+						<label for="admin">admin</label>
+					</div>
+					<div class="col-4">
+						<input
+							type="radio"
+							ng-model="qlTaiKhoan.phanquyen"
+							value="user"
+							name="phanquyen"
+							id="user"
+						/>
+						<label for="user">user</label>
+					</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<button ng-click="addTaiKhoan()" class="btn btn-secondary my-2">
+					Thêm
+				</button>
+				<button ng-click="updateTaiKhoan()" class="btn btn-secondary my-2">
+					Sửa
+				</button>
+				<button ng-click="refeshTaiKhoan()" class="btn btn-secondary my-2">
+					Làm mới
+				</button>
+			</div>
+		</form>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Username</th>
+					<th scope="col">Password</th>
+					<th scope="col">Họ và Tên</th>
+					<th scope="col">Email</th>
+					<th scope="col">Ngày sinh</th>
+					<th scope="col">Marks</th>
+					<th scope="col">Schoolfee</th>
+					<th scope="col">Giới tính</th>
+					<th scope="col">Quyền</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="st in students">
+					<th scope="row">{{st.username}}</th>
+					<td>{{st.password}}</td>
+					<td>{{st.fullname}}</td>
+					<td>{{st.email}}</td>
+					<td>{{st.birthday}}</td>
+					<td>{{st.marks}}</td>
+					<td>{{st.schoolfee|currency}}</td>
+					<td>{{st.gender}}</td>
+					<td>{{st.phanquyen}}</td>
+					<td>
+						<button
+							ng-click="editTaiKhoan($index)"
+							class="btn btn-outline-secondary"
+						>
+							Sửa
+						</button>
+						<button
+							ng-click="deleteTaiKhoan($index)"
+							class="btn btn-outline-secondary mt-1"
+						>
+							Xoá
+						</button>
+
+						<!-- <button
+							type="button"
+							class="btn btn-primary"
+							data-bs-toggle="modal"
+							data-bs-target="#modal_delete_{{ st.id }}"
+						>
+							Xoá
+						</button>
+
+						<div
+							class="modal fade"
+							id="modal_delete_{{ st.id }}"
+							tabindex="-1"
+							aria-labelledby="exampleModalLabel"
+							aria-hidden="true"
+						>
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">
+											Xoá tài khoản
+										</h5>
+										<button
+											type="button"
+											class="btn-close"
+											data-bs-dismiss="modal"
+											aria-label="Close"
+										></button>
+									</div>
+									<div class="modal-body">Bạn có muốn xoá tài khoản không?</div>
+									<div class="modal-footer">
+										<button
+											type="button"
+											class="btn btn-secondary"
+											data-bs-dismiss="modal"
+										>
+											Close
+										</button>
+										<button
+											type="button"
+											ng-click="deleteTaiKhoan($index)"
+											class="btn btn-primary"
+										>
+											Xoá
+										</button>
+									</div>
+								</div>
+							</div>
+						</div> -->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -17,9 +17,7 @@
 	<body ng-app="my_app">
 		<div class="container">
 			<header class="my-3 text-center">
-				<a href="#trangchu"
-					><img src="Images\logo.png" class="my-3" alt="..."
-				/></a>
+				<a href="#/"><img src="Images\logo.png" class="my-3" alt="..." /></a>
 				<p class="fw-bold">Bài Assignment của Nguyễn Viết Hiên</p>
 			</header>
 			<nav
@@ -28,9 +26,7 @@
 				<div class="container-fluid">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link" aria-current="page" href="#trangchu"
-								>Trang chủ</a
-							>
+							<a class="nav-link" aria-current="page" href="#/">Trang chủ</a>
 						</li>
 					</ul>
 					<button
@@ -63,9 +59,9 @@
 							<li class="nav-item">
 								<a class="nav-link" href="#danhmucmonhoc">Danh mục môn học</a>
 							</li>
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a class="nav-link" href="#thitracnghiem">Thi trắc nghiệm</a>
-							</li>
+							</li> -->
 						</ul>
 						<ul
 							class="navbar-nav col-12 col-md-12 col-lg-2 justify-content-end p-0"
@@ -79,13 +75,15 @@
 									data-bs-toggle="dropdown"
 									aria-expanded="false"
 								>
-									<i class="bi bi-person-circle"></i> Tài khoản
+									<i class="bi bi-person-circle"></i>
+									<span ng-show="user == null">Tài khoản</span>
+									<span ng-show="user != null">{{tenNguoiDung}}</span>
 								</a>
 								<ul
 									class="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink"
 								>
-									<li>
+									<li ng-show="user == null">
 										<a
 											href="#"
 											class="dropdown-item"
@@ -94,7 +92,7 @@
 											>Đăng nhập</a
 										>
 									</li>
-									<li>
+									<li ng-show="user == null">
 										<a
 											href="#"
 											class="dropdown-item"
@@ -103,7 +101,7 @@
 											>Đăng ký</a
 										>
 									</li>
-									<li>
+									<li ng-show="user != null">
 										<a
 											href="#"
 											class="dropdown-item"
@@ -112,11 +110,33 @@
 											>Đổi mật khẩu</a
 										>
 									</li>
-									<li>
-										<a class="dropdown-item" href="#">Cập nhật tài khoản</a>
+									<li ng-show="user != null && phanquyen != null">
+										<a class="dropdown-item" href="#quanLyTaiKhoan"
+											>Quản lý tài khoản</a
+										>
 									</li>
-									<li>
-										<a class="dropdown-item" href="#">Đăng xuất</a>
+									<li ng-show="user != null && phanquyen != null">
+										<a class="dropdown-item" href="#quanLyMonHoc"
+											>Quản lý môn học</a
+										>
+									</li>
+									<li ng-show="user != null">
+										<a
+											class="dropdown-item"
+											href="#"
+											data-bs-toggle="modal"
+											data-bs-target="#capNhatThongTin"
+											>Cập nhật tài khoản</a
+										>
+									</li>
+									<li ng-show="user != null">
+										<a
+											class="dropdown-item"
+											href="#"
+											data-bs-toggle="modal"
+											data-bs-target="#dangXuat"
+											>Đăng xuất</a
+										>
 									</li>
 								</ul>
 							</li>
@@ -155,7 +175,7 @@
 										id="password"
 										name="password"
 										placeholder="Mật khẩu"
-										ng-model="doiMatKhau.password"
+										ng-model="doiMatKhau.password1"
 										required
 									/><small
 										class="text-danger d-block"
@@ -185,7 +205,7 @@
 										name="password3"
 										class="form-control"
 										placeholder="Tài khoản"
-										ng-model="doiMatKhau.password3"
+										ng-model="mkMoi.password"
 										required
 									/>
 									<small
@@ -354,7 +374,7 @@
 									<small
 										class="text-danger d-block"
 										ng-hide="formForgotPassword.code.$untouched || formForgotPassword.code.$valid"
-										>Vui lòng nhập mật khẩu</small
+										>Vui lòng nhập mã</small
 									>
 									<div class="text-center">
 										<button class="btn btn-secondary my-3">Ok</button>
@@ -435,19 +455,19 @@
 										ng-hide="formSignUp.password2.$untouched || formSignUp.password2.$valid"
 										>Vui lòng nhập lại mật khẩu</small
 									>
-									<label for="fullName" class="mt-2">Họ và Tên</label>
+									<label for="fullname" class="mt-2">Họ và Tên</label>
 									<input
 										type="text"
-										id="fullName"
-										name="fullName"
+										id="fullname"
+										name="fullname"
 										class="form-control"
 										placeholder="Họ và Tên"
-										ng-model="dangKy.fullName"
+										ng-model="dangKy.fullname"
 										required
 									/>
 									<small
 										class="text-danger d-block"
-										ng-hide="formSignUp.fullName.$untouched || formSignUp.fullName.$valid"
+										ng-hide="formSignUp.fullname.$untouched || formSignUp.fullname.$valid"
 										>Vui lòng nhập Họ và Tên</small
 									>
 									<label for="email" class="mt-2">Địa chỉ email</label>
@@ -466,24 +486,25 @@
 										>Vui lòng nhập đúng email</small
 									>
 									<div class="mt-2 row">
-										<label class="col-4" for="fullname">Giới tính</label>
+										<label class="col-4" for="gender">Giới tính</label>
 										<div class="col-10 row">
 											<div class="col-4">
 												<input
 													type="radio"
-													ng-model="dangKy.gioi_tinh"
+													ng-model="dangKy.gender"
 													value="true"
-													name="gioi_tinh"
+													name="gender"
 													id="gt_nam"
+													ng-checked="stGioiTinh != true"
 												/>
 												<label for="gt_nam">Nam</label>
 											</div>
 											<div class="col-4">
 												<input
 													type="radio"
-													ng-model="dangKy.gioi_tinh"
+													ng-model="dangKy.gender"
 													value="false"
-													name="gioi_tinh"
+													name="gender"
 													id="gt_nu"
 												/>
 												<label for="gt_nu">Nữ</label>
@@ -516,56 +537,208 @@
 						</div>
 					</div>
 				</div>
+				<!-- Cập nhật tài khoản -->
+				<div
+					class="modal fade"
+					id="capNhatThongTin"
+					tabindex="-1"
+					aria-labelledby="exampleModalLabel"
+					aria-hidden="true"
+				>
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">
+									Cập nhật tài khoản
+								</h5>
+								<button
+									type="button"
+									class="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"
+								></button>
+							</div>
+							<div class="modal-body">
+								<form name="formCapNhatTaiKhoan">
+									<label for="fullName" class="mt-2">Họ và Tên</label>
+									<input
+										type="text"
+										id="fullName"
+										name="fullName"
+										class="form-control"
+										placeholder="Họ và Tên"
+										ng-model="capNhatThongTinTaiKhoan.fullname"
+										required
+									/>
+									<small
+										class="text-danger d-block"
+										ng-hide="formCapNhatTaiKhoan.fullName.$untouched || formCapNhatTaiKhoan.fullName.$valid"
+										>Vui lòng nhập Họ và Tên</small
+									>
+									<label for="email" class="mt-2">Địa chỉ email</label>
+									<input
+										type="email"
+										id="email"
+										name="email"
+										class="form-control"
+										placeholder="Địa chỉ email"
+										ng-model="capNhatThongTinTaiKhoan.email"
+										required
+									/>
+									<small
+										class="text-danger d-block"
+										ng-hide="formCapNhatTaiKhoan.email.$untouched || formCapNhatTaiKhoan.email.$valid"
+										>Vui lòng nhập đúng email</small
+									>
+									<label for="birthday" class="mt-2">Ngày sinh</label>
+									<input
+										type="date"
+										id="birthday"
+										name="birthday"
+										class="form-control"
+										placeholder="birthday"
+										ng-model="capNhatThongTinTaiKhoan.birthday"
+										required
+									/>
+									<small
+										class="text-danger d-block"
+										ng-hide="formCapNhatTaiKhoan.birthday.$untouched || formCapNhatTaiKhoan.birthday.$valid"
+										>Vui lòng chọn ngày sinh</small
+									>
+									<label for="marks" class="mt-2">Marks</label>
+									<input
+										type="number"
+										id="marks"
+										name="marks"
+										class="form-control"
+										placeholder="marks"
+										ng-model="capNhatThongTinTaiKhoan.marks"
+										required
+										min="0"
+										max="10"
+									/>
+									<small
+										class="text-danger d-block"
+										ng-hide="formCapNhatTaiKhoan.marks.$untouched || formCapNhatTaiKhoan.marks.$valid"
+										>Vui lòng nhập Marks</small
+									>
+									<label for="schoolfee" class="mt-2">schoolfee</label>
+									<input
+										type="number"
+										id="schoolfee"
+										name="schoolfee"
+										class="form-control"
+										placeholder="schoolfee"
+										ng-model="capNhatThongTinTaiKhoan.schoolfee"
+										min="2000000"
+										required
+									/>
+									<small
+										class="text-danger d-block"
+										ng-hide="formCapNhatTaiKhoan.schoolfee.$untouched || formCapNhatTaiKhoan.schoolfee.$valid"
+										>Vui lòng nhập schoolfee</small
+									>
+									<div class="mt-2 row">
+										<label class="col-4" for="fullname">Giới tính</label>
+										<div class="col-10 row">
+											<div class="col-4">
+												<input
+													type="radio"
+													ng-model="capNhatThongTinTaiKhoan.gender"
+													value="true"
+													checked
+													name="gioi_tinh"
+													id="gt_nam"
+													ng-checked="stGioiTinh.gender != true"
+												/>
+												<label for="gt_nam">Nam</label>
+											</div>
+											<div class="col-4">
+												<input
+													type="radio"
+													ng-model="capNhatThongTinTaiKhoan.gender"
+													value="false"
+													name="gioi_tinh"
+													id="gt_nu"
+												/>
+												<label for="gt_nu">Nữ</label>
+											</div>
+										</div>
+									</div>
+									<div class="text-center">
+										<button
+											ng-click="capNhatThongTin()"
+											class="btn btn-secondary my-2"
+										>
+											Ok
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Đăng Xuất -->
+				<div>
+					<!-- Button trigger modal -->
+					<!-- Modal -->
+					<div
+						class="modal fade"
+						id="dangXuat"
+						tabindex="-1"
+						aria-labelledby="exampleModalLabel"
+						aria-hidden="true"
+					>
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Đăng Xuất</h5>
+									<button
+										type="button"
+										class="btn-close"
+										data-bs-dismiss="modal"
+										aria-label="Close"
+									></button>
+								</div>
+								<div class="modal-body">Bạn có muốn đăng xuất không?</div>
+								<div class="modal-footer">
+									<button
+										ng-click="dangXuatTaiKhoan()"
+										type="button"
+										class="btn btn-primary"
+									>
+										Đăng xuất
+									</button>
+									<button
+										type="button"
+										class="btn btn-secondary"
+										data-bs-dismiss="modal"
+									>
+										Close
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div ng-view></div>
+			<footer class="text-center bg-secondary text-white p-3 mt-3">
+				<p>@2021 - design by Nguyễn Viết Hiên</p>
+				<div class="go-to-top">
+					<a href="#" class="">
+						<i class="bi bi-arrow-bar-up"></i>
+						<br />
+						BACK TOP TOP</a
+					>
+				</div>
+			</footer>
 		</div>
 		<script src="Js/angularjs.min.js"></script>
 		<script src="Js/angular-route.js"></script>
-
-		<!-- <script src="controllers/blueController.js"></script>
-		<script src="controllers/redController.js"></script>
-		<script src="controllers/greenController.js"></script> -->
-		<script>
-			const app = angular.module("my_app", ["ngRoute"]);
-			app.config(function ($routeProvider, $locationProvider) {
-				$locationProvider.hashPrefix("");
-				$routeProvider
-					.when("/trangchu", {
-						templateUrl: "pages/trangchu.html", //link
-						// controller: "blueControlller",
-					})
-					.when("/gioithieu", {
-						templateUrl: "pages/gioithieu.html",
-						// controller: "greenControlller",
-					})
-					.when("/lienhe", {
-						templateUrl: "pages/lienhe.html",
-						// controller: "redControlller",
-					})
-					.when("/gopy", {
-						templateUrl: "pages/gopy.html",
-						// controller: "redControlller",
-					})
-					.when("/hoidap", {
-						templateUrl: "pages/hoidap.html",
-						// controller: "redControlller",
-					})
-					.when("/danhmucmonhoc", {
-						templateUrl: "pages/danhmucmonhoc.html",
-						// controller: "redControlller",
-					})
-					.when("/thitracnghiem", {
-						templateUrl: "pages/thitracnghiem.html",
-						// controller: "redControlller",
-					});
-			});
-
-			// app.controller("blueControlller", blueControlller);
-			// app.controller("greenControlller", greenControlller);
-			// app.controller("redControlller", redControlller);
-		</script>
-
-		<script src="codeJS/noThing.js"></script>
+		<!-- <script src="codeJS/noThing.js"></script> -->
+		<script src="codeJS/index.js"></script>
+		<script src="Js/sweetalert2.all.min.js"></script>
 		<script src="Js/jquery.min.js"></script>
 		<script src="Js/popper.min.js"></script>
 		<script src="Js/bootstrap.min.js"></script>

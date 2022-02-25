@@ -1,0 +1,77 @@
+<div class="container my-5" id="content">
+	<div class="row" ng-show="!inProgess">
+		<div class="col text-center" ng-show="user != null">
+			<button class="btn btn-primary" ng-click="start()">Start the Quiz</button>
+		</div>
+	</div>
+
+	<h3 class="text-center" ng-show="user == null">
+		Vui lòng đăng nhập để làm quiz !
+	</h3>
+
+	<div ng-show="inProgess">
+		<div class="row" ng-show="quizOver">
+			<h3 class="text-center">Quiz is Over</h3>
+			<div class="col text-center">
+				<button class="btn btn-primary" ng-click="reset()">Play again</button>
+			</div>
+		</div>
+		<div ng-show="!quizOver">
+			<div class="row">
+				<div class="col text-center">
+					<!-- <h2><i class="fas fa-clock"></i> 10:12:00</h2> -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="card border-info">
+						<div class="card-header text-white bg-success">
+							<img
+								src="/Images/{{Logo}}"
+								width="30"
+								class="border border-primary rounded-lg"
+								alt=""
+							/>
+							<span>{{subjectName}}</span>
+							<span class="float-end badge badge-dark">{{id}}/10</span>
+						</div>
+						<div class="card-body">
+							<div class="card-text">
+								<label for="">{{question}}</label>
+								<hr />
+								<div class="form-check" ng-repeat="option in options">
+									<label class="form-check-label" for="Radios1">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="answer"
+											value="{{option.id}}"
+										/>
+										{{option.Text}}
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div ng-show="answerMode">
+								<button class="btn btn-primary" ng-click="checkAnswer()">
+									Submit
+								</button>
+							</div>
+							<div ng-show="!answerMode">
+								<button ng-click="nextQuestion()" class="btn btn-primary">
+									Next
+								</button>
+								<span ng-show="correctAns">Correct</span>
+								<span ng-show="!correctAns">Sorry, in Correct</span>
+							</div>
+							<span class="badge badge-success text-black"
+								>Điểm: {{score}}/10</span
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
