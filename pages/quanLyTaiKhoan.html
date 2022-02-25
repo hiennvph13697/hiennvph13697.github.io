@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-12 col-md-12" ng-controller="my_danhMucTaiKhoan">
-		<h3 class="text-center mt-3">Quản lý môn học</h3>
+		<h3 class="text-center mt-3">Quản lý tài khoản</h3>
 
 		<form class="border border-secondary p-3 mt-3" name="formQuanLyTaiKhoan">
 			<label for="username" class="mt-2">Username</label>
@@ -171,48 +171,48 @@
 				</button>
 			</div>
 		</form>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Username</th>
+						<th scope="col">Password</th>
+						<th scope="col">Họ và Tên</th>
+						<th scope="col">Email</th>
+						<th scope="col">Ngày sinh</th>
+						<th scope="col">Marks</th>
+						<th scope="col">Schoolfee</th>
+						<th scope="col">Giới tính</th>
+						<th scope="col">Quyền</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="st in students">
+						<th scope="row">{{st.username}}</th>
+						<td>{{st.password}}</td>
+						<td>{{st.fullname}}</td>
+						<td>{{st.email}}</td>
+						<td>{{st.birthday}}</td>
+						<td>{{st.marks}}</td>
+						<td>{{st.schoolfee|currency}}</td>
+						<td>{{st.gender}}</td>
+						<td>{{st.phanquyen}}</td>
+						<td>
+							<button
+								ng-click="editTaiKhoan($index)"
+								class="btn btn-outline-secondary"
+							>
+								Sửa
+							</button>
+							<button
+								ng-click="deleteTaiKhoan($index)"
+								class="btn btn-outline-secondary mt-1"
+							>
+								Xoá
+							</button>
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Username</th>
-					<th scope="col">Password</th>
-					<th scope="col">Họ và Tên</th>
-					<th scope="col">Email</th>
-					<th scope="col">Ngày sinh</th>
-					<th scope="col">Marks</th>
-					<th scope="col">Schoolfee</th>
-					<th scope="col">Giới tính</th>
-					<th scope="col">Quyền</th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="st in students">
-					<th scope="row">{{st.username}}</th>
-					<td>{{st.password}}</td>
-					<td>{{st.fullname}}</td>
-					<td>{{st.email}}</td>
-					<td>{{st.birthday}}</td>
-					<td>{{st.marks}}</td>
-					<td>{{st.schoolfee|currency}}</td>
-					<td>{{st.gender}}</td>
-					<td>{{st.phanquyen}}</td>
-					<td>
-						<button
-							ng-click="editTaiKhoan($index)"
-							class="btn btn-outline-secondary"
-						>
-							Sửa
-						</button>
-						<button
-							ng-click="deleteTaiKhoan($index)"
-							class="btn btn-outline-secondary mt-1"
-						>
-							Xoá
-						</button>
-
-						<!-- <button
+							<!-- <button
 							type="button"
 							class="btn btn-primary"
 							data-bs-toggle="modal"
@@ -261,9 +261,10 @@
 								</div>
 							</div>
 						</div> -->
-					</td>
-				</tr>
-			</tbody>
-		</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
