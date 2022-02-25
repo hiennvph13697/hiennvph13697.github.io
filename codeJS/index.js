@@ -244,8 +244,10 @@ function danhMucTaiKhoan($scope, $rootScope, $http) {
 			const urliD = url + "/" + i;
 			if ($rootScope.students[i].username == $scope.qlTaiKhoan.username) {
 				$http.put(urliD, $scope.qlTaiKhoan).then(function (response) {
-					// Thêm vào table
-					// $scope.qlTaiKhoan.push(response.data);
+					$http.get(url).then(function (reponse) {
+						$rootScope.students = reponse.data;
+						console.log($rootScope.students);
+					});
 					$scope.refeshTaiKhoan();
 					console.log($rootScope.students);
 					Swal.fire({
