@@ -156,43 +156,44 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 	$scope.doiMatKhau = function () {
 		for (let i = 0; i < $rootScope.students.length; i++) {
 			const urlId = url + "/" + $rootScope.students[i].id;
-			if (
-				$rootScope.students[i].username == $rootScope.user &&
-				$rootScope.students[i].password == $scope.doiMatKhau.password1 &&
-				$scope.doiMatKhau.password2 == $scope.mkMoi.password
-			) {
-				$http.put(urlId, $scope.mkMoi).then(function (response) {
-					$http.get(url).then(function (reponse) {
-						$rootScope.students = reponse.data;
+			if ($rootScope.students[i].username == $rootScope.user) {
+				if (
+					$rootScope.students[i].password == $scope.doiMatKhau.password1 &&
+					$scope.doiMatKhau.password2 == $scope.mkMoi.password
+				) {
+					$http.put(urlId, $scope.mkMoi).then(function (response) {
+						$http.get(url).then(function (reponse) {
+							$rootScope.students = reponse.data;
+							console.log($rootScope.students);
+						});
+						Swal.fire({
+							icon: "success",
+							title: "Đổi mật khẩu thành công !",
+							text: "Chuyển hướng đến trang chủ !",
+							showConfirmButton: false,
+							timer: 1000,
+						});
+						window.location.href = "#/";
 						console.log($rootScope.students);
 					});
+					return;
+				} else if (
+					$rootScope.students[i].password != $scope.doiMatKhau.password1
+				) {
 					Swal.fire({
-						icon: "success",
-						title: "Đổi mật khẩu thành công !",
-						text: "Chuyển hướng đến trang chủ !",
+						icon: "error",
+						title: "Mật khẩu cũ không đúng !",
 						showConfirmButton: false,
 						timer: 1000,
 					});
-					window.location.href = "#/";
-					console.log($rootScope.students);
-				});
-				return;
-			} else if ($scope.doiMatKhau.password2 != $scope.mkMoi.password) {
-				Swal.fire({
-					icon: "error",
-					title: "Mật khẩu mới không khớp nhau !",
-					showConfirmButton: false,
-					timer: 1000,
-				});
-			} else if (
-				$rootScope.students[i].password != $scope.doiMatKhau.password1
-			) {
-				Swal.fire({
-					icon: "error",
-					title: "Mật khẩu cũ không đúng !",
-					showConfirmButton: false,
-					timer: 1000,
-				});
+				} else if ($scope.doiMatKhau.password2 != $scope.mkMoi.password) {
+					Swal.fire({
+						icon: "error",
+						title: "Mật khẩu mới không khớp nhau !",
+						showConfirmButton: false,
+						timer: 1000,
+					});
+				}
 			}
 		}
 	};
