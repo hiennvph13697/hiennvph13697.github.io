@@ -117,6 +117,8 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 					icon: "error",
 					title: "Đăng nhập thất bại",
 					text: "Mật khẩu không chính xác !",
+					showConfirmButton: false,
+					timer: 1000,
 				});
 			}
 		}
@@ -124,13 +126,18 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 
 	$scope.signUp = function () {
 		if ($scope.dangKy.password == $scope.password2) {
-			$http.post(url, $scope.dangKy).then(function (response) {});
-			Swal.fire({
-				icon: "success",
-				title: "Đăng ký thành công",
-				text: "Chuyển hướng đến trang chủ !",
-				showConfirmButton: false,
-				timer: 1000,
+			$http.post(url, $scope.dangKy).then(function (response) {
+				$http.get(url).then(function (reponse) {
+					$rootScope.students = reponse.data;
+					console.log($rootScope.students);
+				});
+				Swal.fire({
+					icon: "success",
+					title: "Đăng ký thành công",
+					text: "Chuyển hướng đến trang chủ !",
+					showConfirmButton: false,
+					timer: 1000,
+				});
 			});
 			console.log($rootScope.students);
 			window.location.href = "#/";
@@ -139,6 +146,8 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 			Swal.fire({
 				icon: "error",
 				title: "Đăng ký thất bại",
+				showConfirmButton: false,
+				timer: 1000,
 			});
 			return;
 		}
@@ -146,13 +155,17 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 
 	$scope.doiMatKhau = function () {
 		for (let i = 0; i < $rootScope.students.length; i++) {
-			const urlId = url + "/" + i;
+			const urlId = url + "/" + $rootScope.students[i].id;
 			if (
 				$rootScope.students[i].username == $rootScope.user &&
 				$rootScope.students[i].password == $scope.doiMatKhau.password1 &&
 				$scope.doiMatKhau.password2 == $scope.mkMoi.password
 			) {
 				$http.put(urlId, $scope.mkMoi).then(function (response) {
+					$http.get(url).then(function (reponse) {
+						$rootScope.students = reponse.data;
+						console.log($rootScope.students);
+					});
 					Swal.fire({
 						icon: "success",
 						title: "Đổi mật khẩu thành công !",
@@ -168,6 +181,8 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 				Swal.fire({
 					icon: "error",
 					title: "Mật khẩu mới không khớp nhau !",
+					showConfirmButton: false,
+					timer: 1000,
 				});
 			} else if (
 				$rootScope.students[i].password != $scope.doiMatKhau.password1
@@ -175,6 +190,8 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 				Swal.fire({
 					icon: "error",
 					title: "Mật khẩu cũ không đúng !",
+					showConfirmButton: false,
+					timer: 1000,
 				});
 			}
 		}
@@ -242,25 +259,28 @@ function danhMucTaiKhoan($scope, $rootScope, $http) {
 		});
 	};
 	$scope.updateTaiKhoan = function () {
-		for (let i = 0; i < $rootScope.students.length; i++) {
-			const urliD = url + "/" + i;
-			if ($rootScope.students[i].username == $scope.qlTaiKhoan.username) {
-				$http.put(urliD, $scope.qlTaiKhoan).then(function (response) {
-					$http.get(url).then(function (reponse) {
-						$rootScope.students = reponse.data;
-						console.log($rootScope.students);
-					});
-					$scope.refeshTaiKhoan();
-					console.log($rootScope.students);
-					Swal.fire({
-						icon: "success",
-						title: "Sửa thành công !",
-						showConfirmButton: false,
-						timer: 1000,
-					});
-				});
-			}
-		}
+		// for (let i = 0; i < $rootScope.students.length; i++) {}
+		const id = $scope.students[$scope.index].id;
+		console.log(id);
+		const urliD = url + "/" + id;
+		// console.log($rootScope.students[id].username);
+		// console.log($scope.qlTaiKhoan.username);
+		// if ($rootScope.students[id].username == $scope.qlTaiKhoan.username) {
+		$http.put(urliD, $scope.qlTaiKhoan).then(function (response) {
+			$http.get(url).then(function (reponse) {
+				$rootScope.students = reponse.data;
+				console.log($rootScope.students);
+			});
+			$scope.refeshTaiKhoan();
+			console.log($rootScope.students);
+			Swal.fire({
+				icon: "success",
+				title: "Sửa thành công !",
+				showConfirmButton: false,
+				timer: 1000,
+			});
+		});
+		// }
 	};
 	$scope.deleteTaiKhoan = function (index) {
 		const id = $rootScope.students[index].id;
