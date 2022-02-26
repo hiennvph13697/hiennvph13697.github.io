@@ -201,7 +201,7 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 	$scope.capNhatThongTin = function () {
 		console.log($rootScope.user);
 		for (let i = 0; i < $rootScope.students.length; i++) {
-			const urlId = url + "/" + i;
+			const urlId = url + "/" + $rootScope.students[i].id;
 			if ($rootScope.user == $rootScope.students[i].username) {
 				$http
 					.put(urlId, $scope.capNhatThongTinTaiKhoan)
@@ -214,7 +214,6 @@ function thongTinTaiKhoan($scope, $http, $rootScope) {
 							timer: 1000,
 						});
 						window.location.href = "#/";
-						console.log($rootScope.students);
 						return;
 					});
 			}
